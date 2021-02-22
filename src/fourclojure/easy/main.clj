@@ -191,6 +191,29 @@
 (comment
   (#(map list % (range)) [1 2 3]))
 
+;;drop every nth item
+(comment
+  (fn [coll n]
+    (flatten (partition-all (- n 1) n coll)))
+  )
+
+;;compress a sequence
+(comment
+  #(map first (partition-by identity %))
+  )
+
+;;pack a seq
+(comment
+  (fn [coll]
+    (partition-by identity coll))
+  )
+
+;;interleave two sequences
+(comment
+  (fn [coll coll2]
+    (mapcat vector coll coll2))
+  )
+
 
 ;;unanswered
 ;;palindrome detector
@@ -199,22 +222,10 @@
 ;;fibonacci sequence
 (comment)
 
-;;compress a sequence
-(comment)
-
 ;;implement range
 (comment)
 
-;;interleave two sequences
-(comment)
-
 ;;flatten a seq
-(comment)
-
-;;pack a seq
-(comment)
-
-;;drop every nth item
 (comment)
 
 ;;split a seq
