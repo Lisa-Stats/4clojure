@@ -214,12 +214,27 @@
     (mapcat vector coll coll2))
   )
 
+;;map construction
+(comment
+  (fn [coll coll2] (apply assoc {}
+                         (interleave coll coll2)))
+  )
+
+;;fibonacci sequence
+(comment
+  (fn [x] (take x
+              (map first (iterate
+                          (fn [[a b]] [b (+ a b)]) [1 1]))))
+  )
+
+;;split a seq
+(comment
+  #((juxt take drop) %1 %2)
+  )
+
 
 ;;unanswered
 ;;palindrome detector
-(comment)
-
-;;fibonacci sequence
 (comment)
 
 ;;implement range
@@ -228,13 +243,7 @@
 ;;flatten a seq
 (comment)
 
-;;split a seq
-(comment)
-
 ;;a half-truth
-(comment)
-
-;;map construction
 (comment)
 
 ;;greatest common divisor
