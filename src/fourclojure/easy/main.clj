@@ -111,13 +111,41 @@
         [5 6 8 16]))
 
 ;;factorial fun
+ ;;in recur, we are stating in order what each variable becomes on the next iteration
 (comment
   ;;answer
-  ((fn [n] (loop [n n
-                  acc 1]
-             (if (> n 0)
-               (recur (dec n) (* acc n))
+  ((fn [n] (loop [n n    ;;variable 1 - (dec n)
+                  acc 1  ;;variable 2 - (* acc n)
+                  ]
+             (if (> n 0) ;;on the next iteration, change the value of each variable
+               (recur    ;;on the next iteration, n becomes n - 1
+                (dec n)  ;;on the next iteration, acc becomes acc * n
+                (* acc n))
                acc))) 3)
+
+  ;;step 1
+ ;; n = 3      <-- when the loop starts its these values
+ ;; acc = 1
+
+ ;; n - 1 = 2  <-- when the loop ends its these values and it passes them as
+ ;; acc * n = 3    the new loop initializers for the next step (loop)
+
+  ;;step 2
+ ;; n = 2      <-- the loop restarts with values from the end of the last
+ ;; acc = 3         loop
+
+ ;; n - 1 = 1  <-- when the loop ends its these values and it passes them as
+ ;; acc * n = 6
+
+  ;;step 3
+ ;; n = 1      <-- the loop restarts with values from the end of the last
+ ;;  acc = 6       the new loop initializers for the next step (loop)
+
+ ;; n - 1 = 0  <-- when the loop ends its these values and it passes them as
+ ;; acc * n = 6    the new loop initializers for the next step (loop)
+
+  ;;step 4
+  ;;wait, n = 0, so I should return the acc which is now 6 <-- meet exit condition
 
   ;;other possible answers
   (range 1 (+ 8 1))
@@ -232,14 +260,61 @@
   #((juxt take drop) %1 %2)
   )
 
+;;implement range
+(comment
+  (fn [n1 n2]
+    (loop [n1 n1
+           acc '()]
+      (if (< n1 n2)
+        (recur (dec n1) (cons n1 acc))
+        (reverse acc)))))
+
+;;re-implement map
+(comment
+  (fn map* [f ls]
+    (lazy-seq
+     (if (empty? ls)
+       ()
+       (cons (f (first ls))
+             (map* f (rest ls)))))))
+
+;;cartesian product
+(comment
+  (fn [s1 s2]
+    (into #{}
+          (for [x s1
+                y s2]
+            [x y]))))
+
+;;palindrome detector
+(comment
+  (fn [coll] (if (string? coll)
+               (= coll (apply str (reverse coll)))
+               (= coll (reverse coll)))))
+
+
+;;product digits
+(comment
+  #(->> (* %1 %2)
+        (str)
+        (seq)
+        (map str)
+        (map read-string)
+        (into [])))
+
+;;simple closures
+(comment
+  (fn [n] #(apply * (repeat n %))))
+
+;;infix calculator
+(comment
+  (fn infix
+    ([num1 op num2] (op num1 num2))
+    ([num1 op num2 & nums]
+     (apply infix (cons (infix num1 op num2) nums)))))
+
 
 ;;unanswered
-;;palindrome detector
-(comment)
-
-;;implement range
-(comment)
-
 ;;flatten a seq
 (comment)
 
@@ -249,19 +324,10 @@
 ;;greatest common divisor
 (comment)
 
-;;simple closures
-(comment)
-
 ;;re-implement iterate
 (comment)
 
 ;;comparisons
-(comment)
-
-;;cartesian product
-(comment)
-
-;;product digits
 (comment)
 
 ;;group a seq
@@ -279,16 +345,10 @@
 ;;through the looking class
 (comment)
 
-;;infix calculator
-(comment)
-
 ;;pascal's triangle
 (comment)
 
 ;;to tree, or not to tree
-(comment)
-
-;;re-implement map
 (comment)
 
 ;;sum of square of digits
