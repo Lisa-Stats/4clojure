@@ -313,11 +313,14 @@
     ([num1 op num2 & nums]
      (apply infix (cons (infix num1 op num2) nums)))))
 
+;;flatten a seq
+(comment
+  (fn flatten* [coll]
+    (if (sequential? coll)
+      (mapcat flatten* coll)
+      (list coll))))
 
 ;;unanswered
-;;flatten a seq
-(comment)
-
 ;;a half-truth
 (comment)
 
