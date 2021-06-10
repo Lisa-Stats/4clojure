@@ -320,11 +320,42 @@
       (mapcat flatten* coll)
       (list coll))))
 
+;;greatest common divisor
+(comment
+  (fn gcd [x y]
+    (if (= y 0)
+    x
+    (gcd y (mod x y)))))
+
+;;least common multiple
+(comment
+  (fn lcm-4clj
+    ([x y]
+     (letfn [(gcd [x y] (if (= 0 y) x (recur y (mod x y))))]
+       (/ (* x y) (gcd x y))))
+    ([x y & nums]
+     (apply lcm-4clj (cons (lcm-4clj x y) nums)))))
+
+;;sum of square of digits
+(comment
+  (fn [coll]
+    (let [get-digits (fn [n] (->> n
+                                  (str)
+                                  (seq)
+                                  (map str)
+                                  (map #(Integer/parseInt %))))
+          digits-squared (fn [n] (apply + (map #(* % %) (get-digits n))))
+          result-seq (filter #(< % (digits-squared %)) coll)]
+      (count result-seq))))
+
+;;read a binary number
+(comment
+  (fn [s]
+  (reduce (fn [x y] (+ (* x 2) y)) (map read-string (map str (seq s))))))
+
+
 ;;unanswered
 ;;a half-truth
-(comment)
-
-;;greatest common divisor
 (comment)
 
 ;;re-implement iterate
@@ -342,9 +373,6 @@
 ;;dot product
 (comment)
 
-;;read a binary number
-(comment)
-
 ;;through the looking class
 (comment)
 
@@ -354,13 +382,7 @@
 ;;to tree, or not to tree
 (comment)
 
-;;sum of square of digits
-(comment)
-
 ;;recognize playing cards
-(comment)
-
-;;least common multiple
 (comment)
 
 ;;beauty is symmetry
